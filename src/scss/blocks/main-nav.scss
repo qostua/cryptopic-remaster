@@ -1,0 +1,14 @@
+.main-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 80px;
+}
+.main-nav_list {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  font-size: 25px;
+}
+.main-nav_link {
+  padding: 5px;
+}

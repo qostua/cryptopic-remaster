@@ -1,0 +1,217 @@
+.encryption {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: calc(100vh - 130px);
+  min-height: 500px;
+  padding-top: 40px;
+}
+.encryption--encrypt {
+  .encryption_form--encrypt {
+    display: grid;
+  }
+}
+.encryption--decipher {
+  .encryption_form--decipher {
+    display: grid;
+  }
+}
+.encryption_toggle-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.encryption_toggle-icon {
+  position: absolute;
+  bottom: 8px;
+  right: 68px;
+  transition-duration: 0.5s;
+}
+.encryption_toggle-icon-key {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  transform: scale(0);
+  transition-duration: 0.5s;
+}
+.encryption_toggle-icon-lock {
+  opacity: 1;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  transition-duration: 0.5s;
+}
+.encryption_toggle:checked ~ .encryption_toggle-icon {
+  right: 65px;
+  transition-duration: 0.5s;
+}
+.encryption_toggle:checked ~ .encryption_toggle-icon .encryption_toggle-icon-key {
+  opacity: 1;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  transition-duration: 0.5s;
+}
+.encryption_toggle:checked ~ .encryption_toggle-icon .encryption_toggle-icon-lock {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  transform: scale(0);
+  transition-duration: 0.5s;
+}
+.encryption_toggle:checked ~ .encryption_toggle-label:after {
+  font-size: 20px;
+  content: attr(data-on);
+}
+.encryption_toggle ~ .encryption_toggle-label:after {
+  font-size: 20px;
+  content: attr(data-off);
+}
+.encryption_form {
+  display: none;
+  grid-template-columns: 1fr 300px 1fr;
+  gap: 20px;
+  align-items: center;
+  position: relative;
+}
+@for $i from 1 to 4 {
+  .encryption_form[data-step-count="#{$i}"] {
+    .encryption_form-step[data-step="#{$i}"] {
+      display: flex;
+    }
+  }
+}
+.encryption_form[data-step-count="1"] {
+  .encryption_form-btn--back {
+    display: none;
+  }
+}
+.encryption_form--encrypt[data-step-count="2"] {
+  .encryption_form-btn--next {
+    display: none;
+  }
+}
+.encryption_form--encrypt[data-step-count="2"].encryption_form--downloaded-pic {
+  .encryption_form-btn--next {
+    display: block;
+  }
+}
+.encryption_form--encrypt[data-step-count="3"] {
+  .encryption_form-btn--next {
+    display: none;
+  }
+}
+.encryption_form--decipher[data-step-count="1"] {
+  .encryption_form-btn--next {
+    display: none;
+  }
+}
+.encryption_form--decipher[data-step-count="2"] {
+  .encryption_form-btn--next {
+    display: none;
+  }
+}
+.encryption_form--decipher[data-step-count="1"].encryption_form--downloaded-pic1 {
+  .encryption_form-btn--next {
+    display: block;
+  }
+}
+.encryption_form--decipher[data-step-count="2"].encryption_form--downloaded-pic2 {
+  .encryption_form-btn--next {
+    display: block;
+  }
+}
+.encryption_form--decipher[data-step-count="3"] {
+  .encryption_form-btn--next {
+    display: none;
+  }
+}
+.encryption_form-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  grid-column: 2 / 3;
+}
+.encryption_form-step-title {
+  order: 1;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+.encryption_form-step-text {
+  order: 2;
+  text-align: center;
+  font-size: 14px;
+  min-height: 42px;
+}
+.encryption_form-input-wrap {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.encryption_form-text-input {
+  width: 270px;
+}
+.encryption_form-btn {
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  @include active;
+  cursor: pointer;
+  margin-bottom: 88px;
+}
+.encryption_form-btn--back {
+  grid-column: 1 / 2;
+  // display: none;
+}
+.encryption_form-btn--next {
+  @keyframes name {
+    0% {
+      padding: 0 5px;
+    }
+    100% {
+      padding: 0 0 0 10px;
+    }
+  }
+  grid-column: 3 / 4;
+  animation: name 1s infinite alternate ease-in;
+}
+.encryption_form-key-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -90%);
+  z-index: -1;
+}
+.encryption_form-downloaded-pic {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -72%);
+  position: absolute;
+  height: 180px;
+  width: 180px;
+  object-fit: cover;
+  border-radius: 36%;
+  border: 10px solid $dark-green;
+  display: none;
+}
+.encryption_form--downloaded-pic .encryption_form-downloaded-pic {
+  display: block;
+}
+.encryption_form--downloaded-pic1[data-step-count="1"] .encryption_form-downloaded-pic {
+  display: block;
+}
+.encryption_form--downloaded-pic2[data-step-count="2"] .encryption_form-downloaded-pic {
+  display: block;
+}
+.encryption_form-encrypt-pic {
+  height: 280px;
+  width: 280px;
+  object-fit: cover;
+  border-radius: 36%;
+  border: 10px solid $dark-green;
+}
