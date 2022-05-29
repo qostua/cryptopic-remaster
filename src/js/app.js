@@ -68,7 +68,7 @@ let encryptionData = {
     this.file.name = name;
   },
   addMessage(text) {
-    this.messege = text;
+    this.message = text;
   },
   addOperationType(type) {
     this.operationType = type;
@@ -153,14 +153,14 @@ let uploadImage = async (event, image) => {
   image.src = base64;
 };
 
-let declareDataEncrypt = function(image, compressImgSrc, messege) {
+let declareDataEncrypt = function(image, message) {
   let imageWidth = image.naturalWidth;
   let imageHeight = image.naturalHeight;
   let imageType = image.src.slice(image.src.indexOf("/") + 1, image.src.indexOf(";"));
 
   encryptionData.addPicture(image.src, imageWidth, imageHeight, imageType);
-  encryptionData.addMessage(messege);
-  encryptionData.addOperationType("encrypt");
+  encryptionData.addMessage(message);
+  encryptionData.addOperationType("encrypt-text");
 }
 
 formEncryptInputFile.addEventListener("change", (e) => {
@@ -215,6 +215,7 @@ let encryptFileGoNextStep = function () {
       })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         encryptFilePic.src = json.picture.data
         formEncryptFile.dataset.stepCount = +formEncryptFile.dataset.stepCount + 1;
       });
@@ -239,7 +240,7 @@ let declareDataEncryptFile = function(image) {
   let imageType = image.src.slice(image.src.indexOf("/") + 1, image.src.indexOf(";"));
 
   encryptionData.addPicture(image.src, imageWidth, imageHeight, imageType);
-  encryptionData.addOperationType("encrypt");
+  encryptionData.addOperationType("encrypt-file");
 }
 
 formEncryptFileInputFile.addEventListener("change", (e) => {
@@ -254,7 +255,7 @@ formEncryptFileInputPic.addEventListener("change", (e) => {
   uploadImage(e, formEncryptFileImage);
   toggleDownloadedPic(formEncryptFile);
   formEncryptFileImage.onload = function() {
-    declareDataDecipher(formEncryptFileImage);
+    declareDataEncryptFile(formEncryptFileImage);
   };
   console.log(encryptionData);
 });
@@ -288,7 +289,7 @@ let decipherGoNextStep = function () {
     })
     .then((response) => response.json())
     .then((json) => {
-      encryptText.value = json.messege;
+      encryptText.value = json.message;
       formDecipher.dataset.stepCount = +formDecipher.dataset.stepCount + 1;
     });
 }
@@ -303,7 +304,7 @@ let formDecipherInputFile = formDecipher.querySelector(".encryption_form-step[da
 let formDecipherImage = formDecipher.querySelector(".encryption_form-step[data-step='1'] .encryption_form-downloaded-pic");
 
 let declareDataDecipher = function(image) {
-  encryptionData.addOperationType("decipher");
+  encryptionData.addOperationType("decipher-text");
 
   let imageWidth = image.naturalWidth;
   let imageHeight = image.naturalHeight;
@@ -357,9 +358,9 @@ let decipherFileGoNextStep = function () {
       fetch(json.file.data)
       .then(res => res.blob())
       .then(function(myBlob) {
-        let file = new File([myBlob], {type: 'octet/stream'});
+        let file = new File([myBlob], {type: myBlob.type});
 
-        processFile(file, decompressData);
+        processFile(file, decompressData, myBlob.type);
       });
     });
 }
@@ -370,7 +371,7 @@ let formDecipherFileInputFile = formDecipherFile.querySelector(".encryption_form
 let formDecipherFileImage = formDecipherFile.querySelector(".encryption_form-step[data-step='1'] .encryption_form-downloaded-pic");
 
 let declareDataDecipherFile = function(image) {
-  encryptionData.addOperationType("decipher");
+  encryptionData.addOperationType("decipher-file");
 
   let imageWidth = image.naturalWidth;
   let imageHeight = image.naturalHeight;
@@ -383,8 +384,10 @@ formDecipherFileInputFile.addEventListener("change", (e) => {
   uploadImage(e, formDecipherFileImage);
   toggleDownloadedPic(formDecipherFile, 1);
   formDecipherFileImage.onload = function() {
-    declareDataDecipher(formDecipherFileImage);
+    declareDataDecipherFile(formDecipherFileImage);
   };
 });
+
+//# sourceMappingURL=app.js.map
 
 //# sourceMappingURL=app.js.map
