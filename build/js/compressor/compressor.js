@@ -4,7 +4,7 @@ function saveData(data, typeFile) {
     const file = new Blob([data], {type: typeFile});
     console.log(file);
     a.href= URL.createObjectURL(file);
-    a.download = `file.${typeFile}`;
+    a.download = `file.${typeFile.split("/")[1]}`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -30,7 +30,7 @@ function compressData(data, fileType) {
       data.length, compressedDataPtr);
   var compressedData = wasmPtrToArray(compressedDataPtr, compressedDataSize);
 
-  const file = new Blob([compressedData], {type: fileType});
+  const file = new Blob([compressedData], {type: "file/" + fileType});
   let reader = new FileReader();
   reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
 
@@ -52,12 +52,11 @@ function decompressData(data) {
   return decompressedData;
 }
 
-
 function processFile(file, processor, typeFile) {
   var fileReader = new FileReader();
   fileReader.onload = function () {
     var rawData = new Uint8Array(fileReader.result);
-    saveData(processor(rawData, file.type), typeFile);
+    saveData(processor(rawData, file.name.split(".").reverse()[0]), typeFile);
   };
   fileReader.readAsArrayBuffer(file);
 }

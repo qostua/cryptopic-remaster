@@ -355,9 +355,11 @@ let decipherFileGoNextStep = function () {
     })
     .then((response) => response.json())
     .then((json) => {
+      // console.log(json.file.data);
       fetch(json.file.data)
       .then(res => res.blob())
       .then(function(myBlob) {
+        console.log(myBlob);
         let file = new File([myBlob], {type: myBlob.type});
 
         processFile(file, decompressData, myBlob.type);
