@@ -2,6 +2,50 @@
 
 let page = document.querySelector(".page");
 
+let encryptionData = {
+  file: {},
+  addPicture(data, width, height, type) {
+    this.picture = {
+      data: data,
+      width: width,
+      height: height,
+      type: type,
+    }
+  },
+  addFileData(data) {
+    this.file.data = data;
+  },
+  addFileName(name) {
+    this.file.name = name;
+  },
+  addMessage(text) {
+    this.message = text;
+  },
+  addOperationType(type) {
+    this.operationType = type;
+  },
+  cleanData() {
+    this.operationType = "";
+    this.message = "";
+    this.file = {};
+    this.picture = {};
+  }
+}
+
+let forms = document.querySelectorAll(".encryption_form");
+let formsArr = Array.from(forms);
+
+let cleanForm = function() {
+  for (form of formsArr) {
+    form.reset();
+    form.dataset.stepCount = "1";
+    form.classList.remove('encryption_form--downloaded-pic');
+    form.classList.remove('encryption_form--downloaded-pic1');
+    form.classList.remove('encryption_form--downloaded-file');
+    encryptionData.cleanData();
+  }
+}
+
 let encryption = document.querySelector(".encryption");
 
 let encryptionToggle = document.querySelector(".encryption_toggle");
@@ -16,6 +60,7 @@ if (encryptionToggle.checked) {
 }
 
 encryptionToggle.addEventListener("click", function() {
+  cleanForm();
   encryption.className = "encryption";
   encryptToggleFileText.textContent = "текст";
   decipherToggleFileText.textContent = "текст";
@@ -31,6 +76,7 @@ encryptionToggle.addEventListener("click", function() {
 encryptToggleFileText = document.querySelector(".encryption_toggle-label--encrypt .encryption_toggle-label-btn--text");
 
 encryptToggleFileText.addEventListener("click", function() {
+  cleanForm();
   encryption.className = "encryption";
   if (encryptToggleFileText.textContent == "текст") {
     encryptToggleFileText.textContent = "файл";
@@ -54,30 +100,6 @@ decipherToggleFileText.addEventListener("click", function() {
   }
 });
 
-
-let encryptionData = {
-  file: {},
-  addPicture(data, width, height, type) {
-    this.picture = {
-      data: data,
-      width: width,
-      height: height,
-      type: type,
-    }
-  },
-  addFileData(data) {
-    this.file.data = data;
-  },
-  addFileName(name) {
-    this.file.name = name;
-  },
-  addMessage(text) {
-    this.message = text;
-  },
-  addOperationType(type) {
-    this.operationType = type;
-  },
-}
 
 /********************
 МОДАЛЬНЫЕ ОКНА
@@ -410,6 +432,7 @@ formDecipherInputFile.addEventListener("change", (e) => {
 let formDecipherFile = document.querySelector(".encryption_form--decipher-file");
 
 let decipherFileBtnNext = formDecipherFile.querySelector(".encryption_form-btn--next");
+let decipherFileBtnBack = formDecipherFile.querySelector(".encryption_form-btn--back");
 
 let formDecipherFileInputPassword = formDecipherFile.querySelector(".encryption_form-text-input--password");
 
@@ -465,8 +488,12 @@ let decipherFileGoNextStep = function () {
       });
   }
 }
+let decipherFileGoBackStep = function () {
+  formDecipherFile.dataset.stepCount = +formDecipherFile.dataset.stepCount - 1;
+}
 
 decipherFileBtnNext.addEventListener("click", decipherFileGoNextStep);
+decipherFileBtnBack.addEventListener("click", decipherFileGoBackStep);
 
 let formDecipherFileInputFile = formDecipherFile.querySelector(".encryption_form-step[data-step='1'] .encryption_form-picture-input");
 let formDecipherFileImage = formDecipherFile.querySelector(".encryption_form-step[data-step='1'] .encryption_form-downloaded-pic");

@@ -2,6 +2,17 @@
 
 let page = document.querySelector(".page");
 
+let forms = document.querySelectorAll(".encryption_form");
+let formsArr = Array.from(forms);
+
+let cleanForm = function() {
+  for (form of formsArr) {
+    form.reset();
+    form.dataset.stepCount = "1";
+    form.classList.remove('encryption_form--downloaded-pic');
+  }
+}
+
 let encryption = document.querySelector(".encryption");
 
 let encryptionToggle = document.querySelector(".encryption_toggle");
@@ -16,6 +27,7 @@ if (encryptionToggle.checked) {
 }
 
 encryptionToggle.addEventListener("click", function() {
+  cleanForm();
   encryption.className = "encryption";
   encryptToggleFileText.textContent = "текст";
   decipherToggleFileText.textContent = "текст";
@@ -31,6 +43,7 @@ encryptionToggle.addEventListener("click", function() {
 encryptToggleFileText = document.querySelector(".encryption_toggle-label--encrypt .encryption_toggle-label-btn--text");
 
 encryptToggleFileText.addEventListener("click", function() {
+  cleanForm();
   encryption.className = "encryption";
   if (encryptToggleFileText.textContent == "текст") {
     encryptToggleFileText.textContent = "файл";
@@ -410,6 +423,8 @@ formDecipherInputFile.addEventListener("change", (e) => {
 let formDecipherFile = document.querySelector(".encryption_form--decipher-file");
 
 let decipherFileBtnNext = formDecipherFile.querySelector(".encryption_form-btn--next");
+let decipherFileBtnBack = formDecipherFile.querySelector(".encryption_form-btn--back");
+console.log(decipherFileBtnBack);
 
 let formDecipherFileInputPassword = formDecipherFile.querySelector(".encryption_form-text-input--password");
 
@@ -465,8 +480,12 @@ let decipherFileGoNextStep = function () {
       });
   }
 }
+let decipherFileGoBackStep = function () {
+  formDecipherFile.dataset.stepCount = +formDecipherFile.dataset.stepCount - 1;
+}
 
 decipherFileBtnNext.addEventListener("click", decipherFileGoNextStep);
+decipherFileBtnBack.addEventListener("click", decipherFileGoBackStep);
 
 let formDecipherFileInputFile = formDecipherFile.querySelector(".encryption_form-step[data-step='1'] .encryption_form-picture-input");
 let formDecipherFileImage = formDecipherFile.querySelector(".encryption_form-step[data-step='1'] .encryption_form-downloaded-pic");
