@@ -38,6 +38,7 @@ const scripts = () => {
 const scriptsLibs = () => {
 	return src([
 		'src/js/libs.js',
+		'node_modules/crypto-js/crypto-js.js'
 	])
 	.pipe(sourcemaps.init())
 	.pipe(concat('app-libs.js'))
@@ -137,7 +138,7 @@ const scriptsBuild = () => {
 	.pipe(dest('build/js/'))
 }
 const scriptsLibsBuild = () => {
-	return src('src/js/app-libs.js')
+	return src('src/js/app-libs.js', 'node_modules/crypto-js/crypto-js.js')
 	//.pipe(uglify())
 	.pipe(dest('build/js/'))
 }

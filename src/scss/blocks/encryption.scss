@@ -111,7 +111,7 @@
   align-items: center;
   position: relative;
 }
-@for $i from 1 to 4 {
+@for $i from 1 to 5 {
   .encryption_form[data-step-count="#{$i}"] {
     .encryption_form-step[data-step="#{$i}"] {
       display: flex;
@@ -120,46 +120,6 @@
 }
 .encryption_form[data-step-count="1"] {
   .encryption_form-btn--back {
-    display: none;
-  }
-}
-.encryption_form--encrypt[data-step-count="2"] {
-  .encryption_form-btn--next {
-    display: none;
-  }
-}
-.encryption_form--encrypt[data-step-count="2"].encryption_form--downloaded-pic {
-  .encryption_form-btn--next {
-    display: block;
-  }
-}
-.encryption_form--encrypt[data-step-count="3"] {
-  .encryption_form-btn--next {
-    display: none;
-  }
-}
-.encryption_form--decipher[data-step-count="1"] {
-  .encryption_form-btn--next {
-    display: none;
-  }
-}
-.encryption_form--decipher[data-step-count="2"] {
-  .encryption_form-btn--next {
-    display: none;
-  }
-}
-.encryption_form--decipher[data-step-count="1"].encryption_form--downloaded-pic1 {
-  .encryption_form-btn--next {
-    display: block;
-  }
-}
-.encryption_form--decipher[data-step-count="2"].encryption_form--downloaded-pic2 {
-  .encryption_form-btn--next {
-    display: block;
-  }
-}
-.encryption_form--decipher[data-step-count="3"] {
-  .encryption_form-btn--next {
     display: none;
   }
 }
